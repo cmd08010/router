@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react"
 import qs from "qs"
 import "./App.css"
+import { getHash } from "./utils/utils"
+import Users from "./components/Users"
+import Home from "./components/Home"
+import Nav from "./components/Nav"
 
 function App() {
-  const getHash = () => {
-    return window.location.hash.slice(1)
-  }
   const [params, setParams] = useState(qs.parse(getHash()))
   useEffect(() => {
     window.addEventListener("hashchange", () => {
@@ -14,7 +15,13 @@ function App() {
     setParams(qs.parse(getHash()))
   }, [])
 
-  return <div className="App"></div>
+  return (
+    <div className="App">
+      <Nav />
+      {params.view === undefined && <Home />}
+      {params.view === "users" && <Users />}
+    </div>
+  )
 }
 
 export default App
